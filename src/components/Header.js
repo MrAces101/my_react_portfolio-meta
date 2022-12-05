@@ -56,7 +56,6 @@ const Header = () => {
     previousScrollPosition = scrollPosition;
   }
 
-
   useEffect(() => {
     window.addEventListener('scroll', handleScroll)
 
