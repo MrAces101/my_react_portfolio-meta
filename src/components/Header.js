@@ -7,7 +7,7 @@ import {
   faMedium,
   faStackOverflow,
 } from "@fortawesome/free-brands-svg-icons";
-import { Box, HStack } from "@chakra-ui/react";
+import { Box, HStack, Link } from "@chakra-ui/react";
 
 const socials = [
   {
@@ -33,6 +33,8 @@ const socials = [
 ];
 
 const Header = () => {
+  const box = useRef(); 
+  let previousScrollPosition = 0;
   const handleClick = (anchor) => () => {
     const id = `${anchor}-section`;
     const element = document.getElementById(id);
@@ -44,12 +46,32 @@ const Header = () => {
     }
   };
 
+  const handleScroll = () => {
+     let scrollPosition = window.pageYOffset;
+    if (scrollPosition > previousScrollPosition) {
+      box.current.style.transform = "translateY(-200px)"; 
+    }else{
+      box.current.style.transform = "translateY(0)"; 
+    }
+    previousScrollPosition = scrollPosition;
+  }
+
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  })
+
   return (
     <Box
       position="fixed"
       top={0}
       left={0}
       right={0}
+      ref={box}
       translateY={0}
       transitionProperty="transform"
       transitionDuration=".3s"
@@ -66,18 +88,18 @@ const Header = () => {
           <nav>
             {socials.map((social, index) => (
               <Link href={social.url} key={social.url} ml={index > 0 ? "4" : "0"}>
-                <FontAwesomeIcon icon={social.icon} size="2x" />
+                <FontAwesomeIcon icon={social.icon} />
               </Link>
             ))}
           </nav>
           <nav>
             <HStack spacing={8}>
-              <Link onClick={handleClick('projects')}>
+                <Link onClick={handleClick('projects')}>
                   Projects
                 </Link>
                 <Link onClick={handleClick("contactme")}>
                   Contact Me
-                </Link>
+                  </Link>
             </HStack>
           </nav>
         </HStack>
