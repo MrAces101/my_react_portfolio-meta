@@ -23,7 +23,7 @@ const LandingSection = () => {
 
   const formik = useFormik({
     initialValues: {
-      firstName:"", email:"", type:"openSource", comment:""
+      firstName:"", email:"", type:"", comment:""
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required("Name Required*"),
